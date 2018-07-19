@@ -1,2 +1,11 @@
-# api_image
-Building the Lagoon API image
+# Building the Api image
+
+The image can be built using the script `build.sh`
+
+
+Example:
+
+```bash
+./build.sh
+```
+
