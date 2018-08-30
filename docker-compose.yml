@@ -1,10 +1,13 @@
 version: '2'
 services:
   api:
-    image: "lagoon-platform/api"
+    image: "lagoonplatform/api"
     ports:
      - "8080:9999"
-     
+    command: --logScript --logTime
+    volumes:
+    - ./out:/var/lib/lagoon
+
   consul:
     command: -server -bootstrap -advertise 127.0.0.1
     image: "progrium/consul"
