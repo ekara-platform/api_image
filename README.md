@@ -9,3 +9,19 @@ Example:
 ./build.sh
 ```
 
+
+The API image will be launched using `docker-compose`
+
+Environement variables required:
+
+- ***http_proxy***
+- ***https_proxy***
+
+
+Example:
+
+```bash
+docker-compose up
+```
+
+

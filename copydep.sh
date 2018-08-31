@@ -1,6 +1,8 @@
+echo "API_IMAGE copydep..."
+
 # Refresh "model"
-#rm -rf ./go/vendor/github.com/lagoon-platform/model/*.go
-#cp ../model/*.go  ./go/vendor/github.com/lagoon-platform/model/
+rm -rf ./go/vendor/github.com/lagoon-platform/model/*.go
+cp ../model/*.go  ./go/vendor/github.com/lagoon-platform/model/
 
 
 # Refresh "engine"
@@ -15,4 +17,5 @@ cp ../api/*.go  ./go/vendor/github.com/lagoon-platform/api/
 rm -rf ./go/vendor/github.com/lagoon-platform/api/consul/*.go
 cp ../api/consul/*.go  ./go/vendor/github.com/lagoon-platform/api/consul
 
-
+cd ./go
+go build
