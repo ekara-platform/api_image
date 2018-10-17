@@ -1,7 +1,7 @@
-version: '2'
+version: '3'
 services:
   api:
-    image: "lagoonplatform/api"
+    image: "ekaraplatform/api"
     environment:
     - http_proxy
     - https_proxy
@@ -12,7 +12,7 @@ services:
     command: --logScript --logTime
 
     volumes:
-    - ./out:/var/lib/lagoon
+    - ./out:/var/lib/ekara
 
   consul:
     command: -server -bootstrap -advertise 127.0.0.1

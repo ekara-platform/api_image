@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/lagoon-platform/api"
+	"github.com/ekara-platform/api"
 )
 
 const (
@@ -15,7 +15,7 @@ const (
 	FLAG_PORT    string = "the running port of the app"
 
 	// Prefix for the Api logs
-	ApiLogPrefix string = "Lagoon API LOG:"
+	ApiLogPrefix string = "Ekara API LOG:"
 )
 
 func main() {

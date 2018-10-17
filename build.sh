@@ -2,6 +2,6 @@
 
 #Copy
 
-docker run --rm -v "$PWD/go":/go/src/installer -w /go/src/installer iron/go:dev go build -o api
+docker run --rm -v "$PWD/go":/go/src/api -w /go/src/api iron/go:dev go build -o api
 
-docker build -t lagoonplatform/api .     
+docker build -t ekaraplatform/api .     

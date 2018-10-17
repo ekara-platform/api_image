@@ -1,0 +1,127 @@
+version: '3'
+services:
+
+  api:
+    image: "ekaraplatform/api"
+    
+    environment:
+    - http_proxy
+    - https_proxy
+    - no_proxy=192.168.99.100,consul
+
+    ports:
+     - "8080:9999"
+    command: --logScript --logTime
+
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - node.labels.PRIMARY == 1
+
+    volumes:
+    - ./out:/var/lib/ekara
+
+  consul:
+    command: -server -bootstrap -advertise 127.0.0.1
+    image: "progrium/consul"
+    
+    ports:
+     - "8300:8300"
+     - "8400:8400"
+     - "8500:8500"
+     - "8600:53/udp"    
+
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints: [node.role == manager]
+
+  viz:
+    image: dockersamples/visualizer:stable
+    ports:
+      - "8090:8080"
+    stop_grace_period: 1m30s
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+
+  portainer:
+    image: portainer/portainer
+    ports:
+      - "9000:9000"
+    command: -H unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+
+  mongo_setup:
+    image: mongo:3.2
+    entrypoint: [ "bash", "/scripts/mongosetup.sh" ]
+    ports:
+      - "30000:27017"
+
+    volumes:
+      - ./scripts:/scripts
+
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+
+  mongo1:
+    image: mongo:3.2
+    entrypoint: [ "/usr/bin/mongod", "--replSet", "rs", "--rest", "--httpinterface" ]
+    ports:
+      - "30001:27017"
+
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+
+  mongo2:
+    image: mongo:3.2
+    entrypoint: [ "/usr/bin/mongod", "--replSet", "rs", "--rest", "--httpinterface" ]
+    ports:
+      - "30002:27017"
+
+    deploy:
+      placement:
+        constraints:
+          - node.labels.SECONDARY == 1
+
+  mongo3:
+    image: mongo:3.2
+    entrypoint: [ "/usr/bin/mongod", "--replSet", "rs", "--rest", "--httpinterface" ]
+    ports:
+      - "30003:27017"
+
+    deploy:
+      placement:
+        constraints:
+          - node.labels.SECONDARY == 1
+
+volumes:
+  portainer_data:		  
+
+#networks:
+#  la_default:		  

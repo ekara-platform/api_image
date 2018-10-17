@@ -27,7 +27,7 @@
 
 [[constraint]]
   branch = "master"
-  name = "github.com/lagoon-platform/api"
+  name = "github.com/ekara-platform/api"
 
 [prune]
   go-tests = true
